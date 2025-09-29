@@ -1,0 +1,22 @@
+.list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 20px;
+
+  border: var(--border);
+  border-radius: 30px;
+
+  line-height: 1.25;
+  transition: var(--transition);
+  &:hover {
+    border: 1px solid #f6b83d;
+  }
+}

@@ -1,0 +1,26 @@
+.list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 20px;
+  border-radius: 30px;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  background-color: var(--link-color);
+  color: var(--link-text);
+  transition: var(--transition);
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: var(--link-color-hover);
+    color: var(--link-text-hover);
+  }
+}
