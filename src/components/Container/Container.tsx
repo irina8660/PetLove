@@ -1,8 +1,6 @@
 import s from "./Container.module.css";
 
-interface ContainerProps {
-  children?: React.ReactNode;
-}
+type ContainerProps = React.PropsWithChildren;
 
 const Container = ({ children }: ContainerProps) => {
   return <div className={s.container}>{children}</div>;

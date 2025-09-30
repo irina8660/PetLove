@@ -1,5 +1,7 @@
-export const selectModalOpen = (state) => state.modal.isOpen;
+import type { RootState } from "../store";
 
-export const selectModalType = (state) => state.modal.type;
+export const selectModalOpen = (state: RootState) => state.modal.isOpen;
 
-export const selectModalPayload = (state) => state.modal.payload;
+export const selectModalType = (state: RootState) => state.modal.type;
+
+export const selectModalPayload = (state: RootState) => state.modal.payload;

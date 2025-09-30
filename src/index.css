@@ -20,6 +20,10 @@
   --font-weight: 16px;
 
   --background-color: #f9f9f9;
+  --white: #fff;
+  --accent: #f6b83d;
+
+  --border-radius: 30px;
 
   --color: #262626;
   --link-color: #f6b83d;
@@ -30,8 +34,8 @@
   --link-text-hover: #f6b83d;
   --link-border-hover: #f6b83d;
 
-  --background-color-accent: #f6b83d;
-  --background-color-light: #fff4df;
+  --button-background-accent: #f6b83d;
+  --button-background-light: #fff4df;
 
   --border: 1px solid rgba(38, 38, 38, 0.15);
 
@@ -57,6 +61,8 @@
 * {
   box-sizing: border-box;
   scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
 }
 
 html,
@@ -82,22 +88,13 @@ a {
 
 ol,
 ul {
-  padding: 0;
-  margin: 0;
   list-style: none;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-}
-
 button {
+  border: none;
   cursor: pointer;
+  background-color: transparent;
   transition: var(--transition);
 }
 
@@ -107,7 +104,7 @@ textarea {
 }
 
 svg {
-  display: block;
+  display: inline-flex;
 }
 
 img {
@@ -125,7 +122,6 @@ address {
 html,
 body {
   height: 100%;
-  margin: 0;
 }
 
 header,
