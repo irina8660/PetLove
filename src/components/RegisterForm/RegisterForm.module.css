@@ -47,15 +47,27 @@
   &::placeholder {
     color: rgba(38, 38, 38, 0.5);
   }
-
-  &:hover,
-  &:focus {
-    border-color: var(--accent);
-  }
 }
 
 .inputError {
   border-color: red;
+}
+
+.inputSuccess {
+  border-color: green;
+}
+
+.inputActive {
+  border-color: yellow;
+}
+
+.icon {
+  position: absolute;
+  left: 388px;
+  top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .eyeButton {

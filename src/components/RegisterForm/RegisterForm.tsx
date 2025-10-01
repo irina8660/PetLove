@@ -12,7 +12,7 @@ const initialValues = {
   confirmPassword: "",
 };
 
-const emailRegular = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const emailRegular = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -25,7 +25,7 @@ const validationSchema = Yup.object().shape({
     .required("Email is required"),
   password: Yup.string()
     .max(64, "Password must be at most 64 characters")
-    .min(8, "Password must be at least 8 characters")
+    .min(7, "Password must be at least 7 characters")
     .required("Password is required"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")
@@ -35,6 +35,9 @@ const validationSchema = Yup.object().shape({
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [nameFocused, setNameFocused] = useState(false);
+  const [emailFocused, setEmailFocused] = useState(false);
 
   return (
     <div className={s.wrapper}>
@@ -50,7 +53,7 @@ const RegisterForm = () => {
         onSubmit={() => {}}
         validationSchema={validationSchema}
       >
-        {({ errors, touched, isSubmitting, dirty }) => (
+        {({ errors, touched, values, isSubmitting, handleBlur, dirty }) => (
           <Form className={s.form}>
             <div className={s.inputs}>
               <div className={s.inputWrapper}>
@@ -58,11 +61,36 @@ const RegisterForm = () => {
                   type="text"
                   name="name"
                   placeholder="Name"
-                  className={clsx(
-                    s.input,
-                    errors.name && touched.name && s.inputError
-                  )}
+                  onFocus={() => setNameFocused(true)}
+                  onBlur={(e) => {
+                    handleBlur(e);
+                    setNameFocused(false);
+                  }}
+                  className={clsx(s.input, {
+                    [s.inputError]: Boolean(errors.name),
+                    [s.inputSuccess]: !errors.name && values.name?.length > 0,
+                    [s.inputActive]: nameFocused && !values.name,
+                  })}
                 />
+                {Boolean(errors.name) && touched.name ? (
+                  <svg
+                    className={s.icon}
+                    width="22"
+                    height="22"
+                    aria-hidden="true"
+                  >
+                    <use href="/icons/svg/icons.svg#icon-shape" />
+                  </svg>
+                ) : values.name?.length > 0 ? (
+                  <svg
+                    className={s.icon}
+                    width="22"
+                    height="22"
+                    aria-hidden="true"
+                  >
+                    <use href="/icons/svg/icons.svg#icon-ok" />
+                  </svg>
+                ) : null}
                 <ErrorMessage name="name" className={s.error} component="div" />
               </div>
 
@@ -71,11 +99,36 @@ const RegisterForm = () => {
                   type="email"
                   name="email"
                   placeholder="Email"
-                  className={clsx(
-                    s.input,
-                    errors.email && touched.email && s.inputError
-                  )}
+                  onFocus={() => setEmailFocused(true)}
+                  onBlur={(e) => {
+                    handleBlur(e);
+                    setEmailFocused(false);
+                  }}
+                  className={clsx(s.input, {
+                    [s.inputError]: Boolean(errors.email),
+                    [s.inputSuccess]: !errors.email && values.email?.length > 0,
+                    [s.inputActive]: emailFocused && !values.email,
+                  })}
                 />
+                {Boolean(errors.email) && (touched.email || emailFocused) ? (
+                  <svg
+                    className={s.icon}
+                    width="22"
+                    height="22"
+                    aria-hidden="true"
+                  >
+                    <use href="/icons/svg/icons.svg#icon-cross" />
+                  </svg>
+                ) : values.email?.length > 0 && !errors.email ? (
+                  <svg
+                    className={s.icon}
+                    width="22"
+                    height="22"
+                    aria-hidden="true"
+                  >
+                    <use href="/icons/svg/icons.svg#icon-check" />
+                  </svg>
+                ) : null}
                 <ErrorMessage
                   name="email"
                   className={s.error}
