@@ -1,3 +1,5 @@
+я скину код, проаналізуй і дай мені можливі помилки
+
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
@@ -62,8 +64,7 @@ const RegisterForm = () => {
                   name="name"
                   placeholder="Name"
                   onFocus={() => setNameFocused(true)}
-                  onBlur={(e) => {
-                    handleBlur(e);
+                  onBlur={() => {
                     setNameFocused(false);
                   }}
                   className={clsx(s.input, {
@@ -100,8 +101,7 @@ const RegisterForm = () => {
                   name="email"
                   placeholder="Email"
                   onFocus={() => setEmailFocused(true)}
-                  onBlur={(e) => {
-                    handleBlur(e);
+                  onBlur={() => {
                     setEmailFocused(false);
                   }}
                   className={clsx(s.input, {
