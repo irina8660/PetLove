@@ -1,11 +1,10 @@
-я скину код, проаналізуй і дай мені можливі помилки
-
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
 import SectionTitle from "../SectionTitle/SectionTitle";
 import s from "./RegisterForm.module.css";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const initialValues = {
   name: "",
@@ -38,9 +37,6 @@ const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const [nameFocused, setNameFocused] = useState(false);
-  const [emailFocused, setEmailFocused] = useState(false);
-
   return (
     <div className={s.wrapper}>
       <div className={s.titleWrapper}>
@@ -54,23 +50,73 @@ const RegisterForm = () => {
         initialValues={initialValues}
         onSubmit={() => {}}
         validationSchema={validationSchema}
+        validateOnChange={true}
       >
-        {({ errors, touched, values, isSubmitting, handleBlur, dirty }) => (
+        {({ field, meta }) => (
           <Form className={s.form}>
             <div className={s.inputs}>
               <div className={s.inputWrapper}>
+                {/* <Field name="name">
+                  {({ field, meta }: any) => {
+                    const value = field.value ?? "";
+                    const hasError = Boolean(meta.error) && value.length > 0; // live error
+                    const isValid = !meta.error && value.length > 0; // live valid
+
+                    return (
+                      <div className={s.inputWrapper}>
+                        <input
+                          {...field}
+                          type="text"
+                          placeholder="Name"
+                          onFocus={() => setNameFocused(true)}
+                          onBlur={(e) => {
+                            field.onBlur(e);
+                            setNameFocused(false);
+                          }}
+                          className={clsx(s.input, {
+                            [s.inputError]: hasError,
+                            [s.inputSuccess]: isValid,
+                            [s.inputActive]: nameFocused && !isValid,
+                          })}
+                          aria-invalid={hasError}
+                        />
+                        {hasError && values.name.length > 2 ? (
+                          <svg
+                            className={s.icon}
+                            width="22"
+                            height="22"
+                            aria-hidden
+                          >
+                            <use href="/icons/svg/icons.svg#icon-shape" />
+                          </svg>
+                        ) : !hasError && touched.name ? (
+                          <svg
+                            className={s.icon}
+                            width="22"
+                            height="22"
+                            aria-hidden
+                          >
+                            <use href="/icons/svg/icons.svg#icon-ok" />
+                          </svg>
+                        ) : null}
+                        <ErrorMessage
+                          name="name"
+                          component="div"
+                          className={s.error}
+                        />
+                      </div>
+                    );
+                  }}
+                </Field> */}
                 <Field
                   type="text"
                   name="name"
                   placeholder="Name"
-                  onFocus={() => setNameFocused(true)}
-                  onBlur={() => {
-                    setNameFocused(false);
-                  }}
                   className={clsx(s.input, {
                     [s.inputError]: Boolean(errors.name),
-                    [s.inputSuccess]: !errors.name && values.name?.length > 0,
-                    [s.inputActive]: nameFocused && !values.name,
+                    [s.inputSuccess]: !errors.name && touched.name,
+                    [s.inputActive]:
+                      touched.name && values.name.length > 0 && !errors.name,
                   })}
                 />
                 {Boolean(errors.name) && touched.name ? (
@@ -82,7 +128,7 @@ const RegisterForm = () => {
                   >
                     <use href="/icons/svg/icons.svg#icon-shape" />
                   </svg>
-                ) : values.name?.length > 0 ? (
+                ) : !errors.name && values.name.length >= 2 ? (
                   <svg
                     className={s.icon}
                     width="22"
@@ -100,17 +146,13 @@ const RegisterForm = () => {
                   type="email"
                   name="email"
                   placeholder="Email"
-                  onFocus={() => setEmailFocused(true)}
-                  onBlur={() => {
-                    setEmailFocused(false);
-                  }}
                   className={clsx(s.input, {
                     [s.inputError]: Boolean(errors.email),
-                    [s.inputSuccess]: !errors.email && values.email?.length > 0,
-                    [s.inputActive]: emailFocused && !values.email,
+                    [s.inputSuccess]: !errors.email && touched.email,
+                    [s.inputActive]: touched.email,
                   })}
                 />
-                {Boolean(errors.email) && (touched.email || emailFocused) ? (
+                {Boolean(errors.email) && touched.email ? (
                   <svg
                     className={s.icon}
                     width="22"
@@ -213,6 +255,10 @@ const RegisterForm = () => {
           </Form>
         )}
       </Formik>
+      <div>
+        <span>Already have an account?</span>
+        <Link to="/">Login</Link>
+      </div>
     </div>
   );
 };
