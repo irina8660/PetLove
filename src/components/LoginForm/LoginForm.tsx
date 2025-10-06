@@ -3,23 +3,17 @@ import { Formik, Form, useField, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
 import SectionTitle from "../SectionTitle/SectionTitle";
-import s from "./RegisterForm.module.css";
+import s from "./LoginForm.module.css";
 import { Link } from "react-router-dom";
 
 const initialValues = {
-  name: "",
   email: "",
   password: "",
-  confirmPassword: "",
 };
 
 const emailRegular = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(2, "Name must be at least 2 characters")
-    .max(32, "Name must be at most 32 characters")
-    .required("Name is required"),
   email: Yup.string()
     .max(64, "Email must be at most 64 characters")
     .matches(emailRegular, "Invalid email address")
@@ -28,9 +22,6 @@ const validationSchema = Yup.object().shape({
     .max(64, "Password must be at most 64 characters")
     .min(7, "Password must be at least 7 characters")
     .required("Password is required"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password"), null], "Passwords must match")
-    .required("Please confirm your password"),
 });
 
 const InputField = ({
@@ -108,13 +99,13 @@ const InputField = ({
   );
 };
 
-const RegisterForm = () => {
+const LoginForm = () => {
   return (
     <div className={s.wrapper}>
       <div className={s.titleWrapper}>
-        <SectionTitle>Registration</SectionTitle>
+        <SectionTitle>Log in</SectionTitle>
         <p className={s.subtitle}>
-          Thank you for your interest in our platform.
+          Welcome! Please enter your credentials to login to the platform:
         </p>
       </div>
 
@@ -131,12 +122,6 @@ const RegisterForm = () => {
           <Form className={s.form}>
             <div className={s.inputs}>
               <InputField
-                name="name"
-                placeholder="Name"
-                successIcon="icon-ok"
-                errorIcon="icon-shape"
-              />
-              <InputField
                 name="email"
                 type="email"
                 placeholder="Email"
@@ -151,20 +136,13 @@ const RegisterForm = () => {
                 successIcon="icon-check"
                 errorIcon="icon-cross"
               />
-              <InputField
-                name="confirmPassword"
-                type="password"
-                placeholder="Confirm Password"
-                successIcon="icon-check"
-                errorIcon="icon-cross"
-              />
             </div>
             <button
               type="submit"
               className={s.button}
               disabled={!dirty || isSubmitting}
             >
-              {isSubmitting ? "Creating account..." : "Registration"}
+              {isSubmitting ? "Loading..." : "Login"}
             </button>
           </Form>
         )}
@@ -178,4 +156,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default LoginForm;

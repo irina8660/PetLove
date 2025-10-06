@@ -1,0 +1,103 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding: 77px 82px;
+  border-radius: 60px;
+  background-color: var(--white);
+  gap: 32px;
+}
+
+.titleWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.subtitle {
+  font-size: 18px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  border: var(--border);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  width: 424px;
+  height: 52px;
+  &::placeholder {
+    color: rgba(38, 38, 38, 0.5);
+  }
+}
+
+.inputError {
+  border-color: red;
+}
+
+.inputSuccess {
+  border-color: green;
+}
+
+.inputActive {
+  border-color: yellow;
+}
+
+.icon {
+  position: absolute;
+  left: 388px;
+  top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eyeButton {
+  position: absolute;
+  left: 372px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+}
+
+.error {
+  font-size: 12px;
+  left: 16px;
+  position: absolute;
+  top: 52px;
+  color: red;
+}
+
+.button {
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 16px;
+  height: 52px;
+  background-color: var(--button-background-accent);
+
+  color: var(--link-text);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
