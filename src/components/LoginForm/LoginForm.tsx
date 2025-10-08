@@ -6,6 +6,15 @@ import SectionTitle from "../SectionTitle/SectionTitle";
 import s from "./LoginForm.module.css";
 import { Link } from "react-router-dom";
 
+interface LoginFormProps {
+  name: keyof typeof initialValues;
+  type: "text" | "email" | "password";
+  placeholder: string;
+  successIcon: "icon-ok";
+  errorIcon: "icon-shape";
+  regex?: RegExp;
+}
+
 const initialValues = {
   email: "",
   password: "",
@@ -31,7 +40,7 @@ const InputField = ({
   successIcon = "icon-ok",
   errorIcon = "icon-shape",
   regex,
-}) => {
+}: LoginFormProps) => {
   const [field, meta] = useField(name);
 
   const [focused, setFocused] = useState(false);
@@ -133,8 +142,8 @@ const LoginForm = () => {
                 name="password"
                 type="password"
                 placeholder="Password"
-                successIcon="icon-check"
-                errorIcon="icon-cross"
+                successIcon="icon-ok"
+                errorIcon="icon-shape"
               />
             </div>
             <button

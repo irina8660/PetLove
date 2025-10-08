@@ -1,30 +1,30 @@
+import PetBlock from "../../components/PetBlock/PetBlock";
 import RegisterForm from "../../components/RegisterForm/RegisterForm";
 import s from "./RegistrationPage.module.css";
+import type { PetBlockProps } from "../../components/PetBlock/PetBlock";
 
 const RegistrationPage = () => {
+  const petImage: PetBlockProps = {
+    images: {
+      desk: {
+        normal: "/images/registration-desk-@1x.webp",
+        retina: "/images/registration-desk-@1x.webp",
+      },
+      tab: {
+        normal: "/images/registration-desk-@1x.webp",
+        retina: "/images/registration-desk-@1x.webp",
+      },
+      mob: {
+        normal: "/images/registration-desk-@1x.webp",
+        retina: "/images/registration-desk-@1x.webp",
+      },
+    },
+    alt: "Photo with beautibul red cat",
+  };
+
   return (
     <div className={s.wrapper}>
-      <picture className={s.img}>
-        <source
-          srcSet="/images/registration-desk-@1x.webp 1x, /images/registration-desk-@2x.webp 2x"
-          media="(min-width: 1440px)"
-          type="image/webp"
-        />
-        <source
-          srcSet="/images/registration-desk-@1x.webp 1x, /images/registration-desk-@2x.webp 2x"
-          media="(min-width: 768px)"
-          type="image/webp"
-        />
-        <source
-          srcSet="/images/registration-desk-@1x.webp 1x, /images/registration-desk-@2x.webp 2x"
-          media="(max-width: 767px)"
-          type="image/webp"
-        />
-        <img
-          src="/images/registration-desk-@1x.webp"
-          alt="A picture with cat"
-        />
-      </picture>
+      <PetBlock {...petImage} />
       <RegisterForm />
     </div>
   );

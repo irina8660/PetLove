@@ -1,10 +1,20 @@
 import { useState } from "react";
-import { Formik, Form, useField, ErrorMessage } from "formik";
+import { Formik, Form, useField, ErrorMessage, type FormikProps } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
 import SectionTitle from "../SectionTitle/SectionTitle";
 import s from "./RegisterForm.module.css";
 import { Link } from "react-router-dom";
+import type { RegisterFormTypes } from "../../types/form";
+
+interface RegisterFormProps {
+  name: keyof RegisterFormTypes;
+  type: "text" | "email" | "password";
+  placeholder?: string;
+  successIcon: string;
+  errorIcon: string;
+  regex?: RegExp;
+}
 
 const initialValues = {
   name: "",
@@ -29,7 +39,7 @@ const validationSchema = Yup.object().shape({
     .min(7, "Password must be at least 7 characters")
     .required("Password is required"),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .oneOf([Yup.ref("password")], "Passwords must match")
     .required("Please confirm your password"),
 });
 
@@ -40,7 +50,7 @@ const InputField = ({
   successIcon = "icon-ok",
   errorIcon = "icon-shape",
   regex,
-}) => {
+}: RegisterFormProps) => {
   const [field, meta] = useField(name);
 
   const [focused, setFocused] = useState(false);
@@ -118,7 +128,7 @@ const RegisterForm = () => {
         </p>
       </div>
 
-      <Formik
+      <Formik<RegisterFormTypes>
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={(vals) => {
@@ -127,11 +137,12 @@ const RegisterForm = () => {
         validateOnChange={true}
         validateOnBlur={true}
       >
-        {({ isSubmitting, dirty }) => (
+        {({ isSubmitting, dirty }: FormikProps<RegisterFormTypes>) => (
           <Form className={s.form}>
             <div className={s.inputs}>
               <InputField
                 name="name"
+                type="text"
                 placeholder="Name"
                 successIcon="icon-ok"
                 errorIcon="icon-shape"
@@ -169,10 +180,11 @@ const RegisterForm = () => {
           </Form>
         )}
       </Formik>
-
-      <div>
-        <p>Already have an account?</p>
-        <Link to="/login">Login</Link>
+      <div className={s.linkWrapper}>
+        <p className={s.text}>Already have an account?</p>
+        <Link to="/login" className={s.link}>
+          Login
+        </Link>
       </div>
     </div>
   );
