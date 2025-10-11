@@ -2,10 +2,12 @@
   display: flex;
   flex-direction: column;
   align-items: start;
-  padding: 77px 82px;
+  justify-content: center;
+  padding: 77px 84px;
   border-radius: 60px;
   background-color: var(--white);
   gap: 32px;
+  width: 592px;
 }
 
 .titleWrapper {
@@ -49,16 +51,16 @@
   }
 }
 
-.inputError {
-  border-color: red;
+.inputActive {
+  border-color: var(--active);
 }
 
 .inputSuccess {
-  border-color: green;
+  border-color: var(--success);
 }
 
-.inputActive {
-  border-color: yellow;
+.inputError {
+  border-color: var(--error);
 }
 
 .icon {
@@ -85,7 +87,7 @@
   left: 16px;
   position: absolute;
   top: 52px;
-  color: red;
+  color: var(--error);
 }
 
 .button {
@@ -100,4 +102,26 @@
   line-height: 1.25;
   letter-spacing: -0.03em;
   text-transform: uppercase;
+}
+
+.linkWrapper {
+  align-self: center;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 2px;
+  font-size: 14px;
+}
+
+.text {
+  line-height: 1.43;
+  letter-spacing: -0.03em;
+  opacity: 0.5;
+}
+
+.link {
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  color: var(--link-color);
 }

@@ -6,6 +6,7 @@ import SectionTitle from "../SectionTitle/SectionTitle";
 import s from "./RegisterForm.module.css";
 import { Link } from "react-router-dom";
 import type { RegisterFormTypes } from "../../types/form";
+// import SuccessMessage from "../SuccessMessage/SuccessMessage";
 
 interface RegisterFormProps {
   name: keyof RegisterFormTypes;
@@ -16,19 +17,22 @@ interface RegisterFormProps {
   regex?: RegExp;
 }
 
-const initialValues = {
+const initialValues: RegisterFormTypes = {
   name: "",
   email: "",
   password: "",
   confirmPassword: "",
 };
-
+const nameRegular = /^[A-Za-z](?:[A-Za-z]|[ -](?=[A-Za-z]))+$/;
 const emailRegular = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+// eslint-disable-next-line no-useless-escape
+const passwordRegular = /^[A-Za-z0-9!@#$%^&*()_+\[\]{}|;:'",.<>/?=\-~]{7,}$/;
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
     .min(2, "Name must be at least 2 characters")
     .max(32, "Name must be at most 32 characters")
+    .matches(nameRegular, "Invalid name")
     .required("Name is required"),
   email: Yup.string()
     .max(64, "Email must be at most 64 characters")
@@ -37,6 +41,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string()
     .max(64, "Password must be at most 64 characters")
     .min(7, "Password must be at least 7 characters")
+    .matches(passwordRegular, "Invalid password")
     .required("Password is required"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Passwords must match")
@@ -52,16 +57,16 @@ const InputField = ({
   regex,
 }: RegisterFormProps) => {
   const [field, meta] = useField(name);
-
   const [focused, setFocused] = useState(false);
-
   const [showPassword, setShowPassword] = useState(false);
 
   const value = field.value ?? "";
 
   const hasValue = value.length > 0;
   const isMatch = regex ? regex.test(value) : !meta.error;
-  const hasError = hasValue && (regex ? !isMatch : Boolean(meta.error));
+  const hasError =
+    (meta.touched && Boolean(meta.error)) ||
+    (hasValue && (regex ? !isMatch : Boolean(meta.error)));
   const isValid = hasValue && (regex ? isMatch : !meta.error);
 
   const effectiveType =
@@ -113,6 +118,7 @@ const InputField = ({
         </svg>
       ) : null}
 
+      {/* <SuccessMessage name={field.name} message="Password is ok!" /> */}
       <ErrorMessage name={name} component="div" className={s.error} />
     </div>
   );
@@ -131,8 +137,8 @@ const RegisterForm = () => {
       <Formik<RegisterFormTypes>
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(vals) => {
-          console.log("submit", vals);
+        onSubmit={(values) => {
+          console.log("submit", values);
         }}
         validateOnChange={true}
         validateOnBlur={true}
@@ -159,15 +165,15 @@ const RegisterForm = () => {
                 name="password"
                 type="password"
                 placeholder="Password"
-                successIcon="icon-check"
-                errorIcon="icon-cross"
+                successIcon="icon-ok"
+                errorIcon="icon-shape"
               />
               <InputField
                 name="confirmPassword"
                 type="password"
                 placeholder="Confirm Password"
-                successIcon="icon-check"
-                errorIcon="icon-cross"
+                successIcon="icon-ok"
+                errorIcon="icon-shape"
               />
             </div>
             <button

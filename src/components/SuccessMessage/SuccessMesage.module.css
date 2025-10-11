@@ -1,0 +1,7 @@
+.message {
+  font-size: 12px;
+  left: 16px;
+  position: absolute;
+  top: 52px;
+  color: var(--success);
+}

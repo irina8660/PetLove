@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Formik, Form, useField, ErrorMessage } from "formik";
+import { Formik, Form, useField, ErrorMessage, type FormikProps } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
 import SectionTitle from "../SectionTitle/SectionTitle";
 import s from "./LoginForm.module.css";
 import { Link } from "react-router-dom";
+import type { LoginFormTypes } from "../../types/form";
 
 interface LoginFormProps {
   name: keyof typeof initialValues;
@@ -21,6 +22,8 @@ const initialValues = {
 };
 
 const emailRegular = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+// eslint-disable-next-line no-useless-escape
+const passwordRegular = /^[A-Za-z0-9!@#$%^&*()_+\[\]{}|;:'",.<>/?=\-~]{7,}$/;
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -30,6 +33,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string()
     .max(64, "Password must be at most 64 characters")
     .min(7, "Password must be at least 7 characters")
+    .matches(passwordRegular, "Invalid password")
     .required("Password is required"),
 });
 
@@ -42,16 +46,16 @@ const InputField = ({
   regex,
 }: LoginFormProps) => {
   const [field, meta] = useField(name);
-
   const [focused, setFocused] = useState(false);
-
   const [showPassword, setShowPassword] = useState(false);
 
   const value = field.value ?? "";
 
   const hasValue = value.length > 0;
   const isMatch = regex ? regex.test(value) : !meta.error;
-  const hasError = hasValue && (regex ? !isMatch : Boolean(meta.error));
+  const hasError =
+    (meta.touched && Boolean(meta.error)) ||
+    (hasValue && (regex ? !isMatch : Boolean(meta.error)));
   const isValid = hasValue && (regex ? isMatch : !meta.error);
 
   const effectiveType =
@@ -118,16 +122,16 @@ const LoginForm = () => {
         </p>
       </div>
 
-      <Formik
+      <Formik<LoginFormTypes>
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(vals) => {
-          console.log("submit", vals);
+        onSubmit={(values) => {
+          console.log("submit", values);
         }}
         validateOnChange={true}
         validateOnBlur={true}
       >
-        {({ isSubmitting, dirty }) => (
+        {({ isSubmitting, dirty }: FormikProps<LoginFormTypes>) => (
           <Form className={s.form}>
             <div className={s.inputs}>
               <InputField
@@ -157,9 +161,11 @@ const LoginForm = () => {
         )}
       </Formik>
 
-      <div>
-        <p>Already have an account?</p>
-        <Link to="/login">Login</Link>
+      <div className={s.linkWrapper}>
+        <p className={s.text}>Don’t have an account?</p>
+        <Link to="/register" className={s.link}>
+          Register
+        </Link>
       </div>
     </div>
   );

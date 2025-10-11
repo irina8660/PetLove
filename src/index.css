@@ -26,6 +26,7 @@
   --border-radius: 30px;
 
   --color: rgb(38, 38, 38);
+
   --link-color: #f6b83d;
   --link-text: #fff;
   --link-border: #fff4df;
@@ -38,6 +39,10 @@
   --button-background-light: #fff4df;
 
   --border: 1px solid rgba(38, 38, 38, 0.15);
+
+  --active: #f6b83d;
+  --success: #08aa83;
+  --error: #ef2447;
 
   --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
