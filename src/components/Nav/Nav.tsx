@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
-import s from "./Navigation.module.css";
+import s from "./Nav.module.css";
 
-const Navigation = () => {
+const Nav = () => {
   return (
     <ul className={s.list}>
       <li>
@@ -23,4 +23,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default Nav;

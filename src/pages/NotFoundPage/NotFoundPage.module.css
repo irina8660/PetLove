@@ -1,0 +1,29 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 119px 0;
+
+  background-color: var(--accent);
+  border-radius: var(--border-radius);
+
+  width: 100%;
+  height: 100%;
+}
+
+.numWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.num {
+  font-weight: 800;
+  font-size: 300px;
+  line-height: 100%;
+  color: var(--white);
+}
+
+.img img {
+  width: auto;
+  height: 300px;
+}

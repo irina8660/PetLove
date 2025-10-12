@@ -1,22 +1,20 @@
-import { Link } from "react-router-dom";
 import Container from "../Container/Container";
-import Navigation from "../Navigation/Navigation";
+import Nav from "../Nav/Nav";
 import s from "./Header.module.css";
-import UserMenu from "../UserMenu/UserMenu";
+import UserNav from "../UserNav/UserNav";
 import AuthNav from "../AuthNav/AuthNav";
+import Logo from "../Logo/Logo";
 
-const isLoggedin = false;
+const isLoggedin = true;
 
 const Header = () => {
   return (
     <header className={s.header}>
       <Container>
         <nav className={s.nav}>
-          <Link to="/">
-            <img src="/logo/logo.webp" alt="Logo Petlove" className={s.logo} />
-          </Link>
-          <Navigation />
-          {isLoggedin ? <UserMenu /> : <AuthNav />}
+          <Logo />
+          <Nav />
+          {isLoggedin ? <UserNav /> : <AuthNav />}
         </nav>
       </Container>
     </header>
