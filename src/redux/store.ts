@@ -10,16 +10,18 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import modalReduser from "./modal/slice";
+import modalReducer from "./modal/slice";
+import usersReducer from "./users/slice";
 
 const rootReducer = combineReducers({
-  modal: modalReduser,
+  users: usersReducer,
+  modal: modalReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth"],
+  whitelist: ["users"],
   blacklist: ["modal"],
 };
 

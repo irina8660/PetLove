@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Formik, Form, useField, ErrorMessage, type FormikProps } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
 import SectionTitle from "../SectionTitle/SectionTitle";
 import s from "./LoginForm.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { LoginFormTypes } from "../../types/form";
+import { useDispatch, useSelector } from "react-redux";
+import { selectIsLoggedIn } from "../../redux/users/selectors";
+import { signIn } from "../../redux/users/operations";
 
 interface LoginFormProps {
   name: keyof typeof initialValues;
@@ -113,6 +116,20 @@ const InputField = ({
 };
 
 const LoginForm = () => {
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleSubmit = (values: LoginFormTypes) => {
+    dispatch(signIn(values));
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/my-profile");
+    }
+  }, [isLoggedIn, navigate]);
+
   return (
     <div className={s.wrapper}>
       <div className={s.titleWrapper}>
@@ -125,9 +142,7 @@ const LoginForm = () => {
       <Formik<LoginFormTypes>
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values) => {
-          console.log("submit", values);
-        }}
+        onSubmit={handleSubmit}
         validateOnChange={true}
         validateOnBlur={true}
       >

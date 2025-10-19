@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Formik, Form, useField, ErrorMessage, type FormikProps } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
 import SectionTitle from "../SectionTitle/SectionTitle";
 import s from "./RegisterForm.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { RegisterFormTypes } from "../../types/form";
-// import SuccessMessage from "../SuccessMessage/SuccessMessage";
+import { useDispatch, useSelector } from "react-redux";
+import { signUp } from "../../redux/users/operations";
+import { selectIsLoggedIn } from "../../redux/users/selectors";
 
 interface RegisterFormProps {
   name: keyof RegisterFormTypes;
@@ -118,13 +120,28 @@ const InputField = ({
         </svg>
       ) : null}
 
-      {/* <SuccessMessage name={field.name} message="Password is ok!" /> */}
       <ErrorMessage name={name} component="div" className={s.error} />
     </div>
   );
 };
 
 const RegisterForm = () => {
+  console.log("API BASE URL:", import.meta.env.VITE_API_BASE_URL);
+
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+  const handleSubmit = (values: RegisterFormTypes) => {
+    dispatch(signUp(values));
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/my-profile");
+    }
+  }, [isLoggedIn, navigate]);
+
   return (
     <div className={s.wrapper}>
       <div className={s.titleWrapper}>
@@ -137,9 +154,7 @@ const RegisterForm = () => {
       <Formik<RegisterFormTypes>
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values) => {
-          console.log("submit", values);
-        }}
+        onSubmit={handleSubmit}
         validateOnChange={true}
         validateOnBlur={true}
       >

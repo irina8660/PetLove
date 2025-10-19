@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import toast from "react-hot-toast";
+import axiosInstance from "../../api/axiosInstance";
 
 interface SignUpCredentials {
   name: string;
@@ -33,11 +34,14 @@ export const signUp = createAsyncThunk<
   { rejectValue: string }
 >("users/signup", async (credentials: SignUpCredentials, thunkAPI) => {
   try {
-    const response = await axios.post<SignUpResponse>("users/signup", {
+    console.log("signUp thunk called", credentials);
+    const response = await axiosInstance.post<SignUpResponse>("users/signup", {
       name: credentials.name,
       email: credentials.email,
       password: credentials.password,
     });
+
+    console.log("signUp response:", response);
 
     const fetchData: SignUpResponse = response.data;
     localStorage.setItem("accessToken", fetchData.token);
@@ -72,7 +76,7 @@ export const signIn = createAsyncThunk<
   { rejectValue: string }
 >("users/signin", async (credentials: SignInCredentials, thunkAPI) => {
   try {
-    const response = await axios.post<SignInResponse>(
+    const response = await axiosInstance.post<SignInResponse>(
       "users/signin",
       credentials
     );
@@ -123,3 +127,5 @@ export const signOut = createAsyncThunk<void, void, { rejectValue: string }>(
     }
   }
 );
+
+export const;

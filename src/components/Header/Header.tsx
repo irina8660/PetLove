@@ -4,10 +4,12 @@ import s from "./Header.module.css";
 import UserNav from "../UserNav/UserNav";
 import AuthNav from "../AuthNav/AuthNav";
 import Logo from "../Logo/Logo";
-
-const isLoggedin = true;
+import { useSelector } from "react-redux";
+import { selectIsLoggedIn } from "../../redux/users/selectors";
 
 const Header = () => {
+  const isLoggedin = useSelector(selectIsLoggedIn);
+
   return (
     <header className={s.header}>
       <Container>
