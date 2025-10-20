@@ -28,21 +28,53 @@ interface SignInResponse {
   token: string;
 }
 
+export interface Notice {
+  _id: string;
+  species: string;
+  category: string;
+  title: string;
+  name: string;
+  birthday: string;
+  comment: string;
+  sex: "male" | "female" | "unknown";
+  location: string;
+  imgURL: string;
+  createdAt: string;
+  user: string;
+  popularity: number;
+  updatedAt: string;
+}
+
+interface CurrentUserResponse {
+  _id: string;
+  name: string;
+  email: string;
+  token: string;
+  noticesFavorites: Notice[];
+}
+
+interface CurrentUserFullResponse {
+  _id: string;
+  name: string;
+  email: string;
+  avatar: string;
+  phone: string;
+  token: string;
+  noticesViewed: Notice[];
+  noticesFavorites: Notice[];
+}
+
 export const signUp = createAsyncThunk<
   SignUpResponse,
   SignUpCredentials,
   { rejectValue: string }
 >("users/signup", async (credentials: SignUpCredentials, thunkAPI) => {
   try {
-    console.log("signUp thunk called", credentials);
     const response = await axiosInstance.post<SignUpResponse>("users/signup", {
       name: credentials.name,
       email: credentials.email,
       password: credentials.password,
     });
-
-    console.log("signUp response:", response);
-
     const fetchData: SignUpResponse = response.data;
     localStorage.setItem("accessToken", fetchData.token);
     setAuthHeader(`Bearer ${fetchData.token}`);
@@ -112,7 +144,7 @@ export const signOut = createAsyncThunk<void, void, { rejectValue: string }>(
   "users/signout",
   async (_, thunkAPI) => {
     try {
-      const response = await axios.post("users/signout");
+      const response = await axiosInstance.post("users/signout");
       if (response.status === 200) {
         toast.success("Sign out success");
       }
@@ -128,4 +160,35 @@ export const signOut = createAsyncThunk<void, void, { rejectValue: string }>(
   }
 );
 
-export const;
+export const getCurrentUser = createAsyncThunk<
+  CurrentUserResponse,
+  void,
+  { rejectValue: string }
+>("users/current", async (_, thunkAPI) => {
+  try {
+    const response = await axiosInstance.get("/users/current");
+    console.log("RESPONSE.DATA", response.data);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+    return thunkAPI.rejectWithValue("Unexpected error");
+  }
+});
+
+export const getCurrentUserFull = createAsyncThunk<
+  CurrentUserFullResponse,
+  void,
+  { rejectValue: string }
+>("users/current/full", async (_, thunkAPI) => {
+  try {
+    const response = await axiosInstance.get("/users/current/full");
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+    return thunkAPI.rejectWithValue("Unspected error");
+  }
+});
