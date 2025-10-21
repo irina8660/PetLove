@@ -1,0 +1,36 @@
+.card {
+  border-radius: 60px;
+  width: 520px;
+  height: 928px;
+  padding: 40px;
+  background-color: var(--white);
+}
+
+.userBlock {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.link {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 14px;
+  gap: 4px;
+
+  border-radius: 30px;
+  padding: 10px 14px;
+
+  /* background-color: #f6b83d; */
+
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.29;
+  letter-spacing: -0.02em;
+  color: var(--white);
+}
+
+.icon {
+  fill: none;
+  stroke: var(--white);
+}

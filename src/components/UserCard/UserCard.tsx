@@ -18,7 +18,12 @@ const UserCard = () => {
   return (
     <div className={s.card}>
       <div className={s.userBlock}>
-        <div className={s.user}>User</div>
+        <div className={s.link}>
+          <span className={s.text}>User</span>
+          <svg className={s.icon} width="18" height="18" aria-hidden="true">
+            <use href="/public/icons/svg/icons.svg#icon-user" />
+          </svg>
+        </div>
         <div className={s.UserIconWrapper}>
           <svg className={s.icon} width="50" height="50" aria-hidden="true">
             <use href="/public/icons/svg/icons.svg#icon-user" />
