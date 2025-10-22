@@ -53,7 +53,7 @@ interface CurrentUserResponse {
   noticesFavorites: Notice[];
 }
 
-interface CurrentUserFullResponse {
+export interface CurrentUserFullResponse {
   _id: string;
   name: string;
   email: string;
@@ -167,7 +167,6 @@ export const getCurrentUser = createAsyncThunk<
 >("users/current", async (_, thunkAPI) => {
   try {
     const response = await axiosInstance.get("/users/current");
-    console.log("RESPONSE.DATA", response.data);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -184,6 +183,7 @@ export const getCurrentUserFull = createAsyncThunk<
 >("users/current/full", async (_, thunkAPI) => {
   try {
     const response = await axiosInstance.get("/users/current/full");
+    console.log(response.data);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
